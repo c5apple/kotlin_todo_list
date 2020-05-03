@@ -5,7 +5,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class RecyclerAdapter(private val context: Context, private val itemClickListener: RecyclerViewHolder.ItemClickListener, private val itemList:List<String>) : RecyclerView.Adapter<RecyclerViewHolder>() {
+class RecyclerAdapter(
+    private val context: Context,
+    private val itemClickListener: RecyclerViewHolder.ItemClickListener,
+    private val itemList: ArrayList<Item>
+) : RecyclerView.Adapter<RecyclerViewHolder>() {
 
     private var mRecyclerView : RecyclerView? = null
 
@@ -21,8 +25,11 @@ class RecyclerAdapter(private val context: Context, private val itemClickListene
     }
 
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
-        holder.let {
-            it.itemTextView.text = itemList.get(position)
+        // itemList.mNameをリスト上のテキストボックスにセット
+        holder.itemTextView.text = itemList[position].mName
+        // itemList.itemImageButtonにリムーブメソッドをセット
+        holder.itemImageButton.setOnClickListener {
+            removeItem(position)
         }
     }
 
@@ -35,6 +42,7 @@ class RecyclerAdapter(private val context: Context, private val itemClickListene
         val layoutInflater = LayoutInflater.from(context)
         val mView = layoutInflater.inflate(R.layout.list_item, parent, false)
 
+        // リストのクリックイベントを作成
         mView.setOnClickListener { view ->
             mRecyclerView?.let {
                 itemClickListener.onItemClick(view, it.getChildAdapterPosition(view))
@@ -44,4 +52,16 @@ class RecyclerAdapter(private val context: Context, private val itemClickListene
         return RecyclerViewHolder(mView)
     }
 
+    // リストにデータを追加する
+    fun addListItem (item: Item) {
+        itemList.add(item)
+        notifyDataSetChanged() // これを忘れるとRecyclerViewにItemが反映されない
+    }
+
+    // リストのデータを削除する
+    private fun removeItem(position: Int) {
+        itemList.removeAt(position)
+        notifyItemRemoved(position)
+        notifyDataSetChanged() // これを忘れるとRecyclerViewにItemが反映されない
+    }
 }
