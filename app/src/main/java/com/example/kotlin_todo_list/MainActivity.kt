@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -23,6 +24,9 @@ class MainActivity : AppCompatActivity(), RecyclerViewHolder.ItemClickListener {
 
         viewAdapter = RecyclerAdapter(this, this, hoges)
         viewManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+
+        // 区切り線の表示
+        mainRecyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
         recyclerView = findViewById<RecyclerView>(R.id.mainRecyclerView).apply {
             // use this setting to improve performance if you know that changes
