@@ -23,7 +23,6 @@ class RecyclerAdapter(private val context: Context, private val itemClickListene
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
         holder.let {
             it.itemTextView.text = itemList.get(position)
-            it.itemImageView.setImageResource(R.mipmap.ic_launcher)
         }
     }
 
